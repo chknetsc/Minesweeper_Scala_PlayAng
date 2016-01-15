@@ -1,0 +1,49 @@
+@import de.htwg.nich.minesweeper.model.GameData
+@(gameData: GameData)
+
+@main("Minesweeper") {
+
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#minesweeper-navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="span navbar-brand cursor-pointer">Minesweeper</div>
+        </div>
+
+        <div class="collapse navbar-collapse" id="minesweeper-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <div class="navbar-text cursor-pointer">
+                        <a href="@routes.Application.newGame("Player1", 10, 10, 10)">New Game</a>
+                    </div>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="@routes.Application.nix">Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <ul class="nav nav-pills">
+        <li role="presentation" class="disabled">Player Name: @gameData.playerName</li>
+        <li role="presentation" class="disabled">Field Size X: @gameData.fieldSize._1</li>
+        <li role="presentation" class="disabled">Field Size Y: @gameData.fieldSize._2</li>
+    </ul>
+
+    <table>
+        @for(y <- 0 until gameData.fieldSize._2) {
+            <tr>
+                @for(x <- 0 until gameData.fieldSize._1) {
+                    <th>
+                        <button></button>
+                    </th>
+                }
+            </tr>
+        }
+    </table>
+
+}
