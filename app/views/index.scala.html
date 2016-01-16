@@ -1,8 +1,10 @@
 @import de.htwg.nich.minesweeper.model.GameData
+@import de.htwg.nich.minesweeper.model.GameState
 @(gameData: GameData)
 
 @main("Minesweeper") {
 
+    <!------------------------------------- Menue ------------------------------------------>
     <nav class="navbar navbar-default" role="navigation">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#minesweeper-navbar-collapse-1">
@@ -16,34 +18,85 @@
 
         <div class="collapse navbar-collapse" id="minesweeper-navbar-collapse-1">
             <ul class="nav navbar-nav">
-                <li class="active">
+                <li>
                     <div class="navbar-text cursor-pointer">
-                        <a href="@routes.Application.newGame("Player1", 10, 10, 10)">New Game</a>
+                        <p ng-click="toggleModalNewGame()">New Game</p>
                     </div>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="@routes.Application.nix">Logout</a></li>
+                <li>
+                    <div class="navbar-text cursor-pointer">
+                        <p>Player Name: @gameData.playerName</p>
+                        <p>Field Size: @gameData.fieldSize._1 x @gameData.fieldSize._2</p>
+                    </div>
+                </li>
             </ul>
         </div>
     </nav>
 
-    <ul class="nav nav-pills">
-        <li role="presentation" class="disabled">Player Name: @gameData.playerName</li>
-        <li role="presentation" class="disabled">Field Size X: @gameData.fieldSize._1</li>
-        <li role="presentation" class="disabled">Field Size Y: @gameData.fieldSize._2</li>
-    </ul>
-
-    <table>
-        @for(y <- 0 until gameData.fieldSize._2) {
-            <tr>
-                @for(x <- 0 until gameData.fieldSize._1) {
-                    <th>
-                        <button></button>
-                    </th>
+    <!------------------------------------- GameField ------------------------------------------>
+    <table class="table-bordered minefield">
+    @for(y <- 0 until gameData.fieldSize._2) {
+        <tr>
+        @for(x <- 0 until gameData.fieldSize._1) {
+            <th>
+            @if(gameData.mineField(x)(y).isCovered) {
+                @if(gameData.mineField(x)(y).isFlagged) {
+                    <div  ng-click="clickField(@x, @y)" ng-right-click="flagField(@x, @y)"
+                    class="minebox flag">
+                            &nbsp;&nbsp;
+                    </div>
+                } else {
+                    <div ng-click="clickField(@x, @y)" ng-right-click="flagField(@x, @y)"
+                    class="minebox covered">
+                            &nbsp;&nbsp;
+                    </div>
                 }
-            </tr>
+            } else {
+                @if(gameData.mineField(x)(y).isMine) {
+                    <div  ng-click="clickField(@x, @y)" ng-right-click="flagField(@x, @y)"
+                    class="minebox mine">
+                        X
+                    </div>
+                } else {
+                    <div ng-click="clickField(@x, @y)" ng-right-click="flagField(@x, @y)"
+                    class="minebox uncovered">
+                        @gameData.mineField(x)(y).minesAround
+                    </div>
+                }
+            }
+            </th>
         }
+        </tr>
+    }
     </table>
 
+    <!------------------------------------- NewGame MODAL ------------------------------------------>
+    <modal title="Start New Game" visible="showModalNewGame">
+        <form role="form">
+            <div class="form-group">
+                <label for="name">Player</label>
+                <input type="text" class="form-control" id="name" placeholder="Player1" ng-model="name"/>
+            </div>
+            <div class="form-group">
+                <label for="sizex">Size X</label>
+                <input type="number" class="form-control" id="sizex" placeholder="10" ng-model="x"/>
+            </div>
+            <div class="form-group">
+                <label for="sizey">Size Y</label>
+                <input type="number" class="form-control" id="sizey" placeholder="10" ng-model="y"/>
+            </div>
+            <div class="form-group">
+                <label for="mines">Mines</label>
+                <input type="number" class="form-control" id="mines" placeholder="10" ng-model="mines"/>
+            </div>
+            <button type="submit" class="btn btn-default" ng-click="startNewGame(name, x, y, mines)">OK</button>
+        </form>
+    </modal>
+
+    <!------------------------------------- Lost MODAL ------------------------------------------>
+    @if(gameData.currentGameState == GameState.Won || gameData.currentGameState == GameState.Lost) {
+        <modal title="@gameData.playerName you @gameData.currentGameState the Game" visible="true"></modal>
+    }
 }

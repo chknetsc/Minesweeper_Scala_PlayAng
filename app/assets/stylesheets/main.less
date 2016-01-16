@@ -1,31 +1,25 @@
+@mineboxMaxSize: 70px;
 
 .minefield {
   text-align: center;
   margin: 0 auto;
-  width: 90%;
+  width: 100%;
 }
 
-td {
-  width:30%;
-  position:relative;
-}
+.minebox {
+  float: left;
+  border-right: 1px solid white;
+  border-bottom: 1px solid white;
+  text-align: center;
+  vertical-align: center;
+  max-width: @mineboxMaxSize;
+  max-height: @mineboxMaxSize;
 
-td:after{
-  content:'';
-  display:block;
-  margin-top:100%;
+  &:hover {
+    background: black;
+    color: #eee;
+  }
 }
-
-td .minebox {
-    float: left;
-    position:absolute;
-    top:0;
-    bottom:0;
-    left:0;
-    right:0;
-    text-align: center;
-}
-
 
 .covered {
   background: #555;
