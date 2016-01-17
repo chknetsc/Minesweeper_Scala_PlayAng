@@ -1,13 +1,19 @@
 package controllers
 
+import de.htwg.nich.minesweeper.Minesweeper
 import de.htwg.nich.minesweeper.control.impl.{NewGame, GameMessage, UpdatePosition, MineControl}
+import de.htwg.nich.minesweeper.view.{MineTUI, MineGUI}
 import play.api.mvc._
 
 import scala.swing.Reactor
 
 object Application extends Controller with Reactor {
 
-  val gameController = new MineControl
+  val gameController = Minesweeper.getMineControl
+
+  new MineGUI(gameController)
+  new MineTUI(gameController)
+
   var canUpdate = false
   listenTo(gameController)
 

@@ -44,24 +44,24 @@
             @if(gameData.mineField(x)(y).isCovered) {
                 @if(gameData.mineField(x)(y).isFlagged) {
                     <div  ng-click="clickField(@x, @y)" ng-right-click="flagField(@x, @y)"
-                    class="minebox flag">
+                    class="flag">
                             &nbsp;&nbsp;
                     </div>
                 } else {
                     <div ng-click="clickField(@x, @y)" ng-right-click="flagField(@x, @y)"
-                    class="minebox covered">
+                    class="covered">
                             &nbsp;&nbsp;
                     </div>
                 }
             } else {
                 @if(gameData.mineField(x)(y).isMine) {
                     <div  ng-click="clickField(@x, @y)" ng-right-click="flagField(@x, @y)"
-                    class="minebox mine">
+                    class="minebox">
                         X
                     </div>
                 } else {
                     <div ng-click="clickField(@x, @y)" ng-right-click="flagField(@x, @y)"
-                    class="minebox uncovered">
+                    class="uncovered">
                         @gameData.mineField(x)(y).minesAround
                     </div>
                 }
