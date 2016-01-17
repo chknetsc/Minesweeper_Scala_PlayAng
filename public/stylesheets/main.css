@@ -2,12 +2,12 @@
 .minefield {
   text-align: center;
   margin: 0 auto;
-  width: 90%;
+  width: 80%;
 }
 
 td {
-  width:30%;
-  position:relative;
+    position:relative;
+    width:50%;
 }
 
 td:after{
@@ -17,15 +17,19 @@ td:after{
 }
 
 td .minebox {
-    float: left;
     position:absolute;
     top:0;
     bottom:0;
     left:0;
     right:0;
-    text-align: center;
 }
 
+.minebox {
+    text-align: center;
+    vertical-align:middle;
+    padding-top: 15px;
+    height: 50px;
+}
 
 .covered {
   background: #555;
@@ -36,11 +40,17 @@ td .minebox {
 }
 
 .flag {
-  background: green;
+    background: green;
+    background-image: url('/assets/images/flag.png');
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .mine {
-  background: red;
+    background: red;
+    background-image: url('/assets/images/mine.png');
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
 .clear {
